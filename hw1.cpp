@@ -34,7 +34,6 @@ void renderPixel(int x, int y, bool type) {
     int cy = radius/2;
 
     // TODO:  light up the pixel's symmetric counterpart
-    image[cx][cy] = 1;
     //right top
     image[cx+y][cy+x] = 1;
     //right top-mid
