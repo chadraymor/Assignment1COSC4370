@@ -64,7 +64,7 @@ void rasterizeArc(int r, bool type)
     int x = 0;
     int y = r;
     //decision varaible
-    int d = - r;
+    int d = 1 - r;
 
     renderPixel(x, y, type);
     while (y >= x) 
