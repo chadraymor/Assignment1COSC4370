@@ -27,12 +27,15 @@ using namespace std;
 int radius;
 bool **image;
 
+//this will determine which semi-circle the function will render.
 bool type;
 
 void renderPixel(int x, int y, bool type) {
     assert(x >= 0 && y >= 0 && x <= radius && y <= radius);
     
     // TODO:  light up the pixel's symmetric counterpart
+    
+    //the centers of the ppm file will act as the origin for the circle.
     int cx = radius/2;
     int cy = radius/2;
     //right top
@@ -61,21 +64,27 @@ void rasterizeArc(int r, bool type)
 {
     // TODO:  rasterize the arc using renderPixel to light up pixels
     
+    // x y and r are based on the formula of a circle x^2+y^2=r^2
     int x = 0;
     int y = r;
     //decision varaible
     int d = 1 - r;
 
+     // renders intial pixel of the arc
     renderPixel(x, y, type);
+    //loops until the 45 degree limit is reached
     while (y >= x) 
     {
+        //increments x to determine next pixel's placement
         x++;
+        //if the d is greater than one the next pixel will be (x+1, y), otherwise it will be d is less than one it will be (x+1, y-1)
         if (d < 0)
             d += 2 * x + 3;
         else {
             d += 2 * (x - y) +5;
             y--;
         }
+        //once chosen, pixel is rendered
         renderPixel(x, y, type);
     }
 }
@@ -102,6 +111,7 @@ int main(int argc, char *argv[]) {
     image = new bool*[radius+1];
     for (int i = 0; i <= radius; i++) image[i] = new bool[radius+1];
 
+    // if the size of the resolution doesnt fit the semi-circle, the radiuses of the circles are shrunken proportionally to the res of the ppm file
     if(radius>=300)
     {   
         rasterizeArc(100, 1);
