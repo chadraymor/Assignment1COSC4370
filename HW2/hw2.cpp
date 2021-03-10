@@ -46,6 +46,7 @@ int curProblem = 1; // TODO: change this number to try different examples
 float specular[] = { 1.0, 1.0, 1.0, 1.0 };
 float shininess[] = { 50.0 };
 
+//quick function that coverts degree to radians
 double d2r(double a)
 {
 	return a * 3.14159265358979323846 / 180;
@@ -53,10 +54,12 @@ double d2r(double a)
 
 void problem1() {
     // TODO: Your code here!
+	//a is the angle in degrees
 	int a = 36;
 	while (a <= 360)
 	{
 		glPushMatrix();
+		//cos and sin function takes in radians to determine the correct postion of the teapot
 		glTranslated(cos(d2r(a)), sin(d2r(a)), 0);
 		glRotatef(a, 0, 0, 1);
 		glutSolidTeapot(.25);
@@ -66,11 +69,15 @@ void problem1() {
 
 void problem2() {
     // TODO: Your code here!
+	// number of steps
 	int n = 1;
+	//x coordinate postion
 	double x = -3.75;
 	while (n <= 15)
-	{          
+	{
+		//y coordinate postion
 		double y = 0;
+		//the y-incremental value
 		double yinc = .03;
 		int i = 0;
 		while (i < n)
@@ -79,26 +86,34 @@ void problem2() {
 			glTranslated(x, y, 0);
 			glutSolidCube(.5);
 			glPopMatrix();
+			//y increments expentionally
 			yinc = yinc * 1.13;
 			y = y + yinc;
 			i=i+1;
 		}
+		//increments x coord for next step
 		x = x + .5;
 		n = n+1;
 	}
 }
 
+// creates a single row of teapots at a certain y
 void createRowTea(double n, double y)
 {
+	// r indicates the x coord
 	double r = 1;
+	//if number of teapots is odd
 	if(int(n)%2==1)
 	{ 
+		//if odd, first pot in x = 0
 		glPushMatrix();
 		glTranslated(0, y, 0);
 		glutSolidTeapot(.25);
 		glPopMatrix();
+		//loops r increments 1 at a time, loops until the x coord is the same as ceil half of the number of teapots
 		while (r!=ceil(n/2.0))
 		{
+			//produces 2 teapots at r and -r 
 			glPushMatrix();
 			glTranslated(r, y, 0);
 			glutSolidTeapot(.25);
@@ -110,8 +125,10 @@ void createRowTea(double n, double y)
 			r++;
 		}
 	}
+	//if even
 	else
 	{
+		//if even start a half an r increment
 		r = .5;
 		while (r<=n/2)
 		{
@@ -130,6 +147,7 @@ void createRowTea(double n, double y)
 
 void problem3() {
     // TODO: Your code here!
+	//calls the function to create rows of teapots 
 	createRowTea(1, 1);
 	createRowTea(2, .5);
 	createRowTea(3, 0);
@@ -138,14 +156,16 @@ void problem3() {
 	createRowTea(6, -1.5);
 }
 
-
+//similar to teapot row
 void createRowCube(double n, double y)
 {
 	double r = 0;
+	//middle cube
 	glPushMatrix();
 	glTranslated(0, y, 0);
 	glutSolidCube(.25);
 	glPopMatrix();
+	//loop produces even cubes on each sides
 	while (r < n/1.5)
 	{
 		glPushMatrix();
@@ -162,8 +182,10 @@ void createRowCube(double n, double y)
 
 void makeTri()
 {
+	//start parallel projection
 	glOrtho(0, 0, 0, 0, 1, -1);
 	glClear(GL_COLOR_BUFFER_BIT);
+	//openGL immediate mode to create 4 triangles at reflected coords
 	glBegin(GL_TRIANGLES);
 	glColor3f(0.5, 0, 0);
 	glVertex2f(2, 3);
@@ -192,7 +214,7 @@ void makeTri()
 
 void problem4() {
     // TODO: Your code here!
-	
+	//calls both functions to create image
 	makeTri();
 	createRowCube(3, 0);
 	createRowCube(2.5, 1);
